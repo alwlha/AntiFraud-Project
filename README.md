@@ -45,7 +45,7 @@ python test_system.py
 python main.py data/processed_audio/R01_C01.mp3
 ```
 
-**完整指南**: 📘 [QUICKSTART.md](QUICKSTART.md)
+**完整指南**: 📘 [QUICKSTART.md](docs/QUICKSTART.md)
 
 ---
 
@@ -99,11 +99,11 @@ python main.py data/processed_audio/R01_C01.mp3
 
 ### 🎯 三大智能体
 
-| 智能体 | 角色 | 功能 |
-|--------|------|------|
-| **Watchdog** 🔍 | 监控专家 | 扫描文本，识别高危关键词（验证码、转账、公检法等） |
-| **Profiler** 🕵️ | 侧写师 | 通过 RAG 检索匹配历史案例，识别诈骗类型 |
-| **Guardian** 🛡️ | 守护者 | 根据受害者画像生成个性化防御话术 |
+| 智能体                  | 角色     | 功能                                               |
+| ----------------------- | -------- | -------------------------------------------------- |
+| **Watchdog** 🔍   | 监控专家 | 扫描文本，识别高危关键词（验证码、转账、公检法等） |
+| **Profiler** 🕵️ | 侧写师   | 通过 RAG 检索匹配历史案例，识别诈骗类型            |
+| **Guardian** 🛡️ | 守护者   | 根据受害者画像生成个性化防御话术                   |
 
 ### 📊 技术栈
 
@@ -154,11 +154,11 @@ curl -X POST http://localhost:8000/analyze \
 
 ## 📖 完整文档
 
-| 文档 | 说明 |
-|------|------|
-| [QUICKSTART.md](QUICKSTART.md) | 5 分钟快速上手指南 |
-| [BACKEND_README.md](BACKEND_README.md) | 完整技术文档（含 API 说明） |
-| [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) | 项目交付总结（含前端集成示例） |
+| 文档                                       | 说明                           |
+| ------------------------------------------ | ------------------------------ |
+| [QUICKSTART.md](docs/QUICKSTART.md)           | 5 分钟快速上手指南             |
+| [BACKEND_README.md](docs/BACKEND_README.md)   | 完整技术文档（含 API 说明）    |
+| [PROJECT_SUMMARY.md](docs/PROJECT_SUMMARY.md) | 项目交付总结（含前端集成示例） |
 
 ---
 
@@ -167,12 +167,13 @@ curl -X POST http://localhost:8000/analyze \
 系统使用以下数据（由成员 A 提供）：
 
 - **10 个角色画像** (data/roles.csv)
+
   - 包括：独居老人、企业主、大学生、程序员等
-  
 - **10 个诈骗类型** (data/cases.csv)
+
   - 包括：AI 换脸、冒充公检法、杀猪盘、虚假客服等
-  
 - **100 个对话样本** (data/mapping_full.csv)
+
   - 10 角色 × 10 案例 = 100 组完整对话音频
 
 ---
@@ -198,7 +199,7 @@ gr.Interface(
 ).launch()
 ```
 
-**完整示例**: 见 [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) 的"前端集成方案"
+**完整示例**: 见 [PROJECT_SUMMARY.md](docs/PROJECT_SUMMARY.md) 的"前端集成方案"
 
 ---
 
@@ -211,6 +212,7 @@ python test_system.py
 ```
 
 测试覆盖：
+
 - ✅ 环境配置检查
 - ✅ 数据文件验证
 - ✅ RAG 知识库测试
@@ -221,11 +223,11 @@ python test_system.py
 
 ## 👥 团队分工
 
-| 成员 | 职责 | 状态 |
-|------|------|------|
-| **成员 A** | 数据与剧本架构师 | ✅ 已完成 |
+| 成员             | 职责                  | 状态      |
+| ---------------- | --------------------- | --------- |
+| **成员 A** | 数据与剧本架构师      | ✅ 已完成 |
 | **成员 B** | AI 技术指挥官（后端） | ✅ 已完成 |
-| **成员 C** | 前端开发与交付 | 🚧 进行中 |
+| **成员 C** | 前端开发与交付        | 🚧 进行中 |
 
 ---
 
@@ -234,6 +236,7 @@ python test_system.py
 **Q: 首次运行提示 "知识库为空"？**
 
 A: 运行以下命令构建知识库：
+
 ```bash
 python -c "from src.tools.rag_tool import RAGSearchTool; rag = RAGSearchTool(); rag.build_knowledge_base()"
 ```
@@ -242,21 +245,10 @@ python -c "from src.tools.rag_tool import RAGSearchTool; rag = RAGSearchTool(); 
 
 A: 检查 `.env` 文件中的 `OPENAI_API_KEY` 是否正确填写。
 
-**更多问题**: 见 [BACKEND_README.md](BACKEND_README.md) 的"常见问题"章节
+**更多问题**: 见 [BACKEND_README.md](docs/BACKEND_README.md) 的"常见问题"章节
 
 ---
 
 ## 📄 许可证
 
 MIT License
-
----
-
-## 📞 联系方式
-
-- **成员 B（后端）**: 负责系统架构与 AI 逻辑
-- **成员 C（前端）**: 使用 BACKEND_README.md 集成 UI
-
----
-
-**祝项目顺利！** 🚀
