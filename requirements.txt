@@ -1,0 +1,28 @@
+# === 核心依赖 ===
+# AI 框架
+crewai==0.86.0
+crewai-tools==0.17.0
+openai==1.58.1
+
+# ASR 语音转录
+faster-whisper==1.0.3
+
+# 向量数据库与嵌入
+chromadb==0.5.20
+sentence-transformers==3.3.1
+
+# 数据处理
+pandas==2.2.3
+numpy==2.2.1
+
+# 环境配置
+python-dotenv==1.0.1
+
+# API 服务（可选，用于前后端分离）
+fastapi==0.115.6
+uvicorn==0.34.0
+python-multipart==0.0.20
+
+# 工具库
+pyyaml==6.0.2
+pydantic==2.10.4
