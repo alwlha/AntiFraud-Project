@@ -101,9 +101,9 @@ class RAGSearchTool:
             })
             ids.append(doc_id)
         
-        # 2. 添加典型对话样本（每种类型选前2个）
+        # 2. 添加典型对话样本（每种类型选前5个）
         for case_id in cases_df['id'].unique():
-            samples = mapping_df[mapping_df['case_id'] == case_id].head(2)
+            samples = mapping_df[mapping_df['case_id'] == case_id].head(5)
             
             for idx, row in samples.iterrows():
                 doc_id = f"dialogue_{row['id']}"
