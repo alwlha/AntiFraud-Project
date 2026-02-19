@@ -160,7 +160,11 @@ class AntiFraudSystem:
         
         @tool("搜索诈骗案例知识库")
         def search_knowledge_base(query: str) -> str:
-            """在反诈骗知识库中搜索相似案例"""
+            """在反诈骗知识库中搜索相似案例。参数 query 必须是一个描述诈骗场景或关键词的字符串。"""
+            # 兼容性处理：如果 LLM 错误地传递了字典
+            if isinstance(query, dict):
+                query = query.get("query", str(query))
+            
             results = self.rag_tool.search_similar_cases(query, top_k=3)
             if not results:
                 return "未找到相关案例。"
@@ -212,29 +216,36 @@ class AntiFraudSystem:
         # Step 6: 解析结果
         logger.info("\n📊 Step 5: 解析结果...")
         
-        # 提取结果（CrewAI 返回最后一个任务的输出）
+        # 提取各个任务的输出以便精确解析
+        monitor_output = task1.output.raw if task1.output else ""
+        profile_output = task2.output.raw if task2.output else ""
         defense_advice = str(result)
         
-        # 尝试从输出中提取风险等级和诈骗类型
+        # 1. 从监控专家输出提取风险等级
         risk_level = "Unknown"
-        scam_type = "Unknown"
-        
-        # 简单的文本解析（实际应用中可以更复杂）
-        if "Critical" in defense_advice or "严重" in defense_advice:
+        if "Critical" in monitor_output:
             risk_level = "Critical"
-        elif "High" in defense_advice or "高危" in defense_advice:
+        elif "High" in monitor_output:
             risk_level = "High"
-        elif "Medium" in defense_advice or "中等" in defense_advice:
+        elif "Medium" in monitor_output:
             risk_level = "Medium"
-        else:
+        elif "Safe" in monitor_output:
             risk_level = "Safe"
-        
-        # 尝试提取诈骗类型
-        for case_type in ["AI换脸", "FaceTime诈骗", "百万保障", "公检法", "杀猪盘", 
-                         "ETC", "退改签", "征信修复", "冒充领导", "虚假客服"]:
-            if case_type in defense_advice:
-                scam_type = case_type
-                break
+            
+        # 2. 从侧写师输出提取诈骗类型
+        scam_type = "Unknown"
+        # 优先通过正则匹配 "诈骗类型: [内容]"
+        import re
+        scam_type_match = re.search(r"诈骗类型:\s*([^\n\r]+)", profile_output)
+        if scam_type_match:
+            scam_type = scam_type_match.group(1).strip()
+        else:
+            # 备选方案：关键词扫描
+            for case_type in ["AI换脸", "FaceTime诈骗", "百万保障", "公检法", "杀猪盘", 
+                             "ETC", "退改签", "征信修复", "冒充领导", "虚假客服"]:
+                if case_type in profile_output:
+                    scam_type = case_type
+                    break
         
         logger.info(f"\n{'='*60}")
         logger.info(f"✅ 分析完成！")
