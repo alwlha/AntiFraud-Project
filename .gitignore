@@ -27,7 +27,8 @@ wheels/
 .env
 
 # 数据库
-db/
+db/*
+!db/.gitkeep
 *.sqlite3
 
 # IDE
@@ -45,5 +46,6 @@ temp/
 tmp/
 
 # 项目大文件/本地数据（不上传）
-data/
+data/*
+!data/.gitkeep
 scripts/
